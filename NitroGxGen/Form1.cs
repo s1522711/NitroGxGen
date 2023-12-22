@@ -33,6 +33,7 @@ namespace NitroGxGen
             OutputBox.Text = "LOADING... PLEASE WAIT!";
             OutputBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             OutputBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            OutputBox.ScrollBars = ScrollBars.None;
             HttpClient client = new HttpClient();
             HttpRequestMessage request;
             HttpResponseMessage response;
@@ -79,11 +80,20 @@ namespace NitroGxGen
             }
 
             response = await client.SendAsync(request);
-            responseBody = response.Content.ReadAsStringAsync().Result;
+            try
+            {
+                responseBody = response.Content.ReadAsStringAsync().Result;
 
-            jsonDeserializeToken token = JsonConvert.DeserializeObject<jsonDeserializeToken>(responseBody);
+                jsonDeserializeToken token = JsonConvert.DeserializeObject<jsonDeserializeToken>(responseBody);
 
-            OutputBox.Text = $"https://discord.com/billing/partner-promotions/1180231712274387115/{token.token}";
+                OutputBox.Text = $"https://discord.com/billing/partner-promotions/1180231712274387115/{token.token}";
+            }
+            catch(System.NullReferenceException)
+            {
+                OutputBox.Text = "ERROR! PLEASE TRY AGAIN!\r\n" + response.ToString();
+                OutputBox.ScrollBars = ScrollBars.Vertical;
+            }
+
 
         }
 
