@@ -31,6 +31,8 @@ namespace NitroGxGen
         {
             copyLabel.Text = "";
             OutputBox.Text = "LOADING... PLEASE WAIT!";
+            OutputBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            OutputBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             HttpClient client = new HttpClient();
             HttpRequestMessage request;
             HttpResponseMessage response;
@@ -87,13 +89,28 @@ namespace NitroGxGen
 
         private void copyBtn_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(OutputBox.Text);
-            copyLabel.Text = "COPIED SUCCESSFULLY!";
+            if (OutputBox.Text != "\r\n\r\nPRESS THE GENERATE BUTTON TO GENERATE A KEY!" && OutputBox.Text != "LOADING... PLEASE WAIT!")
+            {
+                Clipboard.SetText(OutputBox.Text);
+                copyLabel.ForeColor = Color.DarkGreen;
+                copyLabel.Text = "COPIED SUCCESSFULLY!";
+            }else if (OutputBox.Text == "LOADING... PLEASE WAIT!")
+            {
+                copyLabel.ForeColor = Color.DarkRed;
+                copyLabel.Text = "PLEASE WAIT, GENERATING LINK!";
+            }
+            else
+            {
+                copyLabel.ForeColor = Color.DarkRed;
+                copyLabel.Text = "PLEASE GENERATE A LINK!";
+            }
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             copyLabel.Text = "";
+            OutputBox.Text = "\r\n\r\nPRESS THE GENERATE BUTTON TO GENERATE A KEY!";
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
