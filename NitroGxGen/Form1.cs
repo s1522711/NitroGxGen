@@ -27,7 +27,7 @@ namespace NitroGxGen
             public string token { get; set; }
         }
 
-        private void GenBtn_Click(object sender, EventArgs e)
+        private async void GenBtn_Click(object sender, EventArgs e)
         {
             copyLabel.Text = "";
             OutputBox.Text = "LOADING... PLEASE WAIT!";
@@ -76,7 +76,7 @@ namespace NitroGxGen
                 request.Headers.Add(header.Name, header.Value);
             }
 
-            response = client.Send(request);
+            response = await client.SendAsync(request);
             responseBody = response.Content.ReadAsStringAsync().Result;
 
             jsonDeserializeToken token = JsonConvert.DeserializeObject<jsonDeserializeToken>(responseBody);
