@@ -34,6 +34,8 @@
             copyBtn = new Button();
             copyLabel = new Label();
             pictureBox1 = new PictureBox();
+            checkBox1 = new CheckBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -90,12 +92,36 @@
             pictureBox1.TabIndex = 4;
             pictureBox1.TabStop = false;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.BackColor = Color.Transparent;
+            checkBox1.Location = new Point(12, 117);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(60, 19);
+            checkBox1.TabIndex = 5;
+            checkBox1.Text = "debug";
+            checkBox1.UseVisualStyleBackColor = false;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(78, 117);
+            label1.Name = "label1";
+            label1.Size = new Size(69, 15);
+            label1.TabIndex = 6;
+            label1.Text = "debug label";
+            label1.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(784, 520);
             Controls.Add(pictureBox1);
+            Controls.Add(label1);
+            Controls.Add(checkBox1);
             Controls.Add(copyLabel);
             Controls.Add(copyBtn);
             Controls.Add(OutputBox);
@@ -116,5 +142,7 @@
         private Button copyBtn;
         private Label copyLabel;
         private PictureBox pictureBox1;
+        private CheckBox checkBox1;
+        private Label label1;
     }
 }

@@ -40,7 +40,18 @@ namespace NitroGxGen
             client = new HttpClient();
 
             request = new HttpRequestMessage(HttpMethod.Post, "https://api.discord.gx.games/v1/direct-fulfillment");
-            var stringdata = JsonConvert.SerializeObject(new Datasend() { partnerUserId = "b8625d7a36fc7f5420be3a4fc81a5fe2ad4421d07f91518ccb45069f2e3689a5" });
+            Random rnd = new Random();
+            const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+            int length = 64;
+            var sb = new StringBuilder();
+            for (var i = 0; i < length; i++)
+            {
+                var c = src[rnd.Next(0, src.Length)];
+                sb.Append(c);
+            }
+            label1.Text = sb.ToString();
+            var stringdata = JsonConvert.SerializeObject(new Datasend() { partnerUserId = sb.ToString() });
+            //var stringdata = JsonConvert.SerializeObject(new Datasend() { partnerUserId = "b8625d7a36fc7f5420be3a4fc81a5fe2ad4421d07f91518ccb45069f2e3689a5" });
             var stringContent = new StringContent(stringdata, Encoding.UTF8, "application/json");
 
             request.Content = stringContent;
@@ -83,6 +94,18 @@ namespace NitroGxGen
         private void Form1_Load(object sender, EventArgs e)
         {
             copyLabel.Text = "";
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                label1.Visible = true;
+            }
+            else
+            {
+                label1.Visible = false;
+            }
         }
     }
 }
