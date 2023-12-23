@@ -7,6 +7,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace NitroGxGen
 {
@@ -27,7 +28,12 @@ namespace NitroGxGen
             public string token { get; set; }
         }
 
-        private async void GenBtn_Click(object sender, EventArgs e)
+        static class generatedLink
+        {
+            public static string gennedLink = "";
+        }
+
+        private async void genLink()
         {
             copyLabel.Text = "";
             OutputBox.Text = "LOADING... PLEASE WAIT!";
@@ -52,7 +58,7 @@ namespace NitroGxGen
                 var c = src[rnd.Next(0, src.Length)];
                 sb.Append(c);
             }
-            label1.Text = sb.ToString();
+            debugLabel.Text = sb.ToString();
             var stringdata = JsonConvert.SerializeObject(new Datasend() { partnerUserId = sb.ToString() });
             //var stringdata = JsonConvert.SerializeObject(new Datasend() { partnerUserId = "b8625d7a36fc7f5420be3a4fc81a5fe2ad4421d07f91518ccb45069f2e3689a5" });
             var stringContent = new StringContent(stringdata, Encoding.UTF8, "application/json");
@@ -87,24 +93,40 @@ namespace NitroGxGen
                 jsonDeserializeToken token = JsonConvert.DeserializeObject<jsonDeserializeToken>(responseBody);
 
                 OutputBox.Text = $"https://discord.com/billing/partner-promotions/1180231712274387115/{token.token}";
+
+                if (fileLocation.saveToFile && saveTimerToFile.Checked && timer1.Enabled)
+                {
+                    using (StreamWriter stream = File.AppendText(fileLocation.path))
+                    {
+                        stream.WriteLine(OutputBox.Text);
+                    }
+                }
+
             }
-            catch(System.NullReferenceException)
+            catch (System.NullReferenceException)
             {
                 OutputBox.Text = "ERROR! PLEASE TRY AGAIN!\r\n" + response.ToString();
                 OutputBox.ScrollBars = ScrollBars.Vertical;
             }
-
-
         }
+
+        private void GenBtn_Click(object sender, EventArgs e)
+        {
+            genLink();
+        }
+
+
 
         private void copyBtn_Click(object sender, EventArgs e)
         {
+
             if (OutputBox.Text != "\r\n\r\nPRESS THE GENERATE BUTTON TO GENERATE A KEY!" && OutputBox.Text != "LOADING... PLEASE WAIT!")
             {
                 Clipboard.SetText(OutputBox.Text);
                 copyLabel.ForeColor = Color.DarkGreen;
                 copyLabel.Text = "COPIED SUCCESSFULLY!";
-            }else if (OutputBox.Text == "LOADING... PLEASE WAIT!")
+            }
+            else if (OutputBox.Text == "LOADING... PLEASE WAIT!")
             {
                 copyLabel.ForeColor = Color.DarkRed;
                 copyLabel.Text = "PLEASE WAIT, GENERATING LINK!";
@@ -123,15 +145,99 @@ namespace NitroGxGen
             OutputBox.Text = "\r\n\r\nPRESS THE GENERATE BUTTON TO GENERATE A KEY!";
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void debugCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            if (debugCheckbox.Checked)
             {
-                label1.Visible = true;
+                debugLabel.Visible = true;
             }
             else
             {
-                label1.Visible = false;
+                debugLabel.Visible = false;
+            }
+        }
+
+        static class timerTime
+        {
+            public static double timeLeft = 0.0;
+        }
+
+        static class fileLocation
+        {
+            public static string path = @"NOTSET";
+            public static bool saveToFile = false;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (timerTime.timeLeft > 0.0)
+            {
+                timerTime.timeLeft = timerTime.timeLeft - 0.1;
+                timerLabel.Text = string.Format("{0:F1}", timerTime.timeLeft);
+                timerLabel.Invoke(new Action(() => timerLabel.Text = string.Format("{0:F1}", timerTime.timeLeft)));
+            }
+            else
+            {
+                genLink();
+                timerTime.timeLeft = (double)timerInput.Value;
+            }
+        }
+
+        private void timerBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (timerBox.Checked)
+            {
+                timerTime.timeLeft = (double)timerInput.Value;
+                GenBtn.Enabled = false;
+                timer1.Enabled = true;
+                timerLabel.Text = string.Format("{0:F1}", timerTime.timeLeft);
+                timerLabel.Visible = true;
+                infoTimerLabel.Visible = true;
+                timer1.Start();
+            }
+            else
+            {
+                timer1.Stop();
+                timerTime.timeLeft = 0.0;
+                timerLabel.Text = "0.0";
+                GenBtn.Enabled = true;
+                timer1.Enabled = false;
+                infoTimerLabel.Visible = false;
+                timerLabel.Visible = false;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.ShowDialog();
+        }
+
+        private void saveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            fileLocation.path = saveFileDialog1.FileName;
+            saveTimerToFile.Checked = true;
+            selectedFileLabel.Text = Path.GetFileName(fileLocation.path);
+            if (!File.Exists(fileLocation.path))
+            {
+                File.Create(fileLocation.path).Close();
+            }
+            
+        }
+
+        private void saveTimerToFile_CheckedChanged(object sender, EventArgs e)
+        {
+            if (saveTimerToFile.Checked && fileLocation.path != "NOTSET")
+            {
+                fileLocation.saveToFile = true;
+            }else if (saveTimerToFile.Checked && fileLocation.path == "NOTSET")
+            {
+                saveTimerToFile.Checked = false;
+                fileLocation.saveToFile = false;
+                MessageBox.Show("Please select a file to save to!");
+            }
+            else
+            {
+                fileLocation.saveToFile = false;
             }
         }
     }

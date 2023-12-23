@@ -28,14 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             GenBtn = new Button();
             OutputBox = new TextBox();
             copyBtn = new Button();
             copyLabel = new Label();
-            checkBox1 = new CheckBox();
-            label1 = new Label();
+            debugCheckbox = new CheckBox();
+            debugLabel = new Label();
             label2 = new Label();
+            timer1 = new System.Windows.Forms.Timer(components);
+            timerLabel = new Label();
+            timerInput = new NumericUpDown();
+            timerBox = new CheckBox();
+            fileSelect = new Button();
+            saveFileDialog1 = new SaveFileDialog();
+            saveTimerToFile = new CheckBox();
+            selectedFileLabel = new Label();
+            groupBox1 = new GroupBox();
+            infoTimerLabel = new Label();
+            ((System.ComponentModel.ISupportInitialize)timerInput).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // GenBtn
@@ -51,6 +64,7 @@
             // 
             // OutputBox
             // 
+            OutputBox.AcceptsReturn = true;
             OutputBox.Font = new Font("Showcard Gothic", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             OutputBox.Location = new Point(12, 12);
             OutputBox.Multiline = true;
@@ -82,27 +96,27 @@
             copyLabel.TabIndex = 3;
             copyLabel.Text = "COPY LABEL";
             // 
-            // checkBox1
+            // debugCheckbox
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.BackColor = Color.Transparent;
-            checkBox1.Location = new Point(12, 136);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(60, 19);
-            checkBox1.TabIndex = 5;
-            checkBox1.Text = "debug";
-            checkBox1.UseVisualStyleBackColor = false;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            debugCheckbox.AutoSize = true;
+            debugCheckbox.BackColor = Color.Transparent;
+            debugCheckbox.Location = new Point(12, 136);
+            debugCheckbox.Name = "debugCheckbox";
+            debugCheckbox.Size = new Size(60, 19);
+            debugCheckbox.TabIndex = 5;
+            debugCheckbox.Text = "debug";
+            debugCheckbox.UseVisualStyleBackColor = false;
+            debugCheckbox.CheckedChanged += debugCheckbox_CheckedChanged;
             // 
-            // label1
+            // debugLabel
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(78, 137);
-            label1.Name = "label1";
-            label1.Size = new Size(69, 15);
-            label1.TabIndex = 6;
-            label1.Text = "debug label";
-            label1.Visible = false;
+            debugLabel.AutoSize = true;
+            debugLabel.Location = new Point(78, 137);
+            debugLabel.Name = "debugLabel";
+            debugLabel.Size = new Size(69, 15);
+            debugLabel.TabIndex = 6;
+            debugLabel.Text = "debug label";
+            debugLabel.Visible = false;
             // 
             // label2
             // 
@@ -116,6 +130,110 @@
             label2.TabIndex = 7;
             label2.Text = "100% WORKING 2024!!111!1!%$";
             // 
+            // timer1
+            // 
+            timer1.Tick += timer1_Tick;
+            // 
+            // timerLabel
+            // 
+            timerLabel.AutoSize = true;
+            timerLabel.ForeColor = Color.White;
+            timerLabel.Location = new Point(394, 28);
+            timerLabel.Name = "timerLabel";
+            timerLabel.Size = new Size(38, 15);
+            timerLabel.TabIndex = 8;
+            timerLabel.Text = "label3";
+            timerLabel.Visible = false;
+            // 
+            // timerInput
+            // 
+            timerInput.DecimalPlaces = 1;
+            timerInput.InterceptArrowKeys = false;
+            timerInput.Location = new Point(6, 26);
+            timerInput.Minimum = new decimal(new int[] { 5, 0, 0, 65536 });
+            timerInput.Name = "timerInput";
+            timerInput.Size = new Size(120, 23);
+            timerInput.TabIndex = 9;
+            timerInput.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            // 
+            // timerBox
+            // 
+            timerBox.AutoSize = true;
+            timerBox.Location = new Point(132, 27);
+            timerBox.Name = "timerBox";
+            timerBox.Size = new Size(94, 19);
+            timerBox.TabIndex = 10;
+            timerBox.Text = "Enable Timer";
+            timerBox.UseVisualStyleBackColor = true;
+            timerBox.CheckedChanged += timerBox_CheckedChanged;
+            // 
+            // fileSelect
+            // 
+            fileSelect.ForeColor = SystemColors.ControlText;
+            fileSelect.Location = new Point(194, 69);
+            fileSelect.Name = "fileSelect";
+            fileSelect.Size = new Size(75, 23);
+            fileSelect.TabIndex = 11;
+            fileSelect.Text = "Select File";
+            fileSelect.UseVisualStyleBackColor = true;
+            fileSelect.Click += button1_Click;
+            // 
+            // saveFileDialog1
+            // 
+            saveFileDialog1.DefaultExt = "txt";
+            saveFileDialog1.Filter = "Text Files|*.txt|All Files|*.*";
+            saveFileDialog1.FileOk += saveFileDialog1_FileOk;
+            // 
+            // saveTimerToFile
+            // 
+            saveTimerToFile.AutoSize = true;
+            saveTimerToFile.Location = new Point(37, 72);
+            saveTimerToFile.Name = "saveTimerToFile";
+            saveTimerToFile.Size = new Size(151, 19);
+            saveTimerToFile.TabIndex = 12;
+            saveTimerToFile.Text = "Save timer results to file";
+            saveTimerToFile.UseVisualStyleBackColor = true;
+            saveTimerToFile.CheckedChanged += saveTimerToFile_CheckedChanged;
+            // 
+            // selectedFileLabel
+            // 
+            selectedFileLabel.AutoSize = true;
+            selectedFileLabel.Location = new Point(275, 73);
+            selectedFileLabel.Name = "selectedFileLabel";
+            selectedFileLabel.Size = new Size(104, 15);
+            selectedFileLabel.TabIndex = 13;
+            selectedFileLabel.Text = "NO FILE SELECTED";
+            // 
+            // groupBox1
+            // 
+            groupBox1.BackColor = Color.Transparent;
+            groupBox1.Controls.Add(timerLabel);
+            groupBox1.Controls.Add(infoTimerLabel);
+            groupBox1.Controls.Add(saveTimerToFile);
+            groupBox1.Controls.Add(selectedFileLabel);
+            groupBox1.Controls.Add(timerInput);
+            groupBox1.Controls.Add(fileSelect);
+            groupBox1.Controls.Add(timerBox);
+            groupBox1.ForeColor = Color.White;
+            groupBox1.Location = new Point(314, 167);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(430, 107);
+            groupBox1.TabIndex = 14;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Loop Timer";
+            // 
+            // infoTimerLabel
+            // 
+            infoTimerLabel.AutoSize = true;
+            infoTimerLabel.BackColor = Color.Transparent;
+            infoTimerLabel.ForeColor = Color.White;
+            infoTimerLabel.Location = new Point(232, 28);
+            infoTimerLabel.Name = "infoTimerLabel";
+            infoTimerLabel.Size = new Size(167, 15);
+            infoTimerLabel.TabIndex = 14;
+            infoTimerLabel.Text = "time left until next generation:";
+            infoTimerLabel.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -123,9 +241,10 @@
             BackgroundImage = Properties.Resources.discord_nitro_banner_jpegged;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(784, 520);
+            Controls.Add(groupBox1);
             Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(checkBox1);
+            Controls.Add(debugLabel);
+            Controls.Add(debugCheckbox);
             Controls.Add(copyLabel);
             Controls.Add(copyBtn);
             Controls.Add(OutputBox);
@@ -140,6 +259,9 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DISCORD NITRO GENERATROR 2024 WORKING 100% !!!!!!!!11!!!!1!!1$#@$#$#!";
             Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)timerInput).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -150,8 +272,18 @@
         private TextBox OutputBox;
         private Button copyBtn;
         private Label copyLabel;
-        private CheckBox checkBox1;
-        private Label label1;
+        private CheckBox debugCheckbox;
+        private Label debugLabel;
         private Label label2;
+        public System.Windows.Forms.Timer timer1;
+        private Label timerLabel;
+        private NumericUpDown timerInput;
+        private CheckBox timerBox;
+        private Button fileSelect;
+        private SaveFileDialog saveFileDialog1;
+        private CheckBox saveTimerToFile;
+        private Label selectedFileLabel;
+        private GroupBox groupBox1;
+        private Label infoTimerLabel;
     }
 }
