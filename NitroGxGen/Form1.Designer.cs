@@ -47,8 +47,11 @@
             selectedFileLabel = new Label();
             groupBox1 = new GroupBox();
             infoTimerLabel = new Label();
+            groupBox2 = new GroupBox();
+            saveIndicatorLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)timerInput).BeginInit();
             groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // GenBtn
@@ -170,7 +173,7 @@
             // fileSelect
             // 
             fileSelect.ForeColor = SystemColors.ControlText;
-            fileSelect.Location = new Point(194, 69);
+            fileSelect.Location = new Point(163, 19);
             fileSelect.Name = "fileSelect";
             fileSelect.Size = new Size(75, 23);
             fileSelect.TabIndex = 11;
@@ -187,7 +190,7 @@
             // saveTimerToFile
             // 
             saveTimerToFile.AutoSize = true;
-            saveTimerToFile.Location = new Point(37, 72);
+            saveTimerToFile.Location = new Point(6, 22);
             saveTimerToFile.Name = "saveTimerToFile";
             saveTimerToFile.Size = new Size(151, 19);
             saveTimerToFile.TabIndex = 12;
@@ -198,7 +201,7 @@
             // selectedFileLabel
             // 
             selectedFileLabel.AutoSize = true;
-            selectedFileLabel.Location = new Point(275, 73);
+            selectedFileLabel.Location = new Point(244, 23);
             selectedFileLabel.Name = "selectedFileLabel";
             selectedFileLabel.Size = new Size(104, 15);
             selectedFileLabel.TabIndex = 13;
@@ -209,15 +212,12 @@
             groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(timerLabel);
             groupBox1.Controls.Add(infoTimerLabel);
-            groupBox1.Controls.Add(saveTimerToFile);
-            groupBox1.Controls.Add(selectedFileLabel);
             groupBox1.Controls.Add(timerInput);
-            groupBox1.Controls.Add(fileSelect);
             groupBox1.Controls.Add(timerBox);
             groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(314, 167);
+            groupBox1.Location = new Point(349, 155);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(430, 107);
+            groupBox1.Size = new Size(430, 63);
             groupBox1.TabIndex = 14;
             groupBox1.TabStop = false;
             groupBox1.Text = "Loop Timer";
@@ -234,6 +234,33 @@
             infoTimerLabel.Text = "time left until next generation:";
             infoTimerLabel.Visible = false;
             // 
+            // groupBox2
+            // 
+            groupBox2.BackColor = Color.Transparent;
+            groupBox2.Controls.Add(saveIndicatorLabel);
+            groupBox2.Controls.Add(saveTimerToFile);
+            groupBox2.Controls.Add(fileSelect);
+            groupBox2.Controls.Add(selectedFileLabel);
+            groupBox2.ForeColor = Color.White;
+            groupBox2.Location = new Point(349, 224);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(381, 63);
+            groupBox2.TabIndex = 15;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Saving results";
+            // 
+            // saveIndicatorLabel
+            // 
+            saveIndicatorLabel.AutoSize = true;
+            saveIndicatorLabel.ForeColor = Color.DarkRed;
+            saveIndicatorLabel.Location = new Point(146, 44);
+            saveIndicatorLabel.Name = "saveIndicatorLabel";
+            saveIndicatorLabel.Size = new Size(105, 15);
+            saveIndicatorLabel.TabIndex = 14;
+            saveIndicatorLabel.Text = "Saved Successfully";
+            saveIndicatorLabel.TextAlign = ContentAlignment.MiddleCenter;
+            saveIndicatorLabel.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -241,6 +268,7 @@
             BackgroundImage = Properties.Resources.discord_nitro_banner_jpegged;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(784, 520);
+            Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(label2);
             Controls.Add(debugLabel);
@@ -262,6 +290,8 @@
             ((System.ComponentModel.ISupportInitialize)timerInput).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -285,5 +315,7 @@
         private Label selectedFileLabel;
         private GroupBox groupBox1;
         private Label infoTimerLabel;
+        private GroupBox groupBox2;
+        private Label saveIndicatorLabel;
     }
 }

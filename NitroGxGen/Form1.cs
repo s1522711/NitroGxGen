@@ -35,6 +35,7 @@ namespace NitroGxGen
 
         private async void genLink()
         {
+            saveIndicatorLabel.Visible = false;
             copyLabel.Text = "";
             OutputBox.Text = "LOADING... PLEASE WAIT!";
             OutputBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -92,14 +93,17 @@ namespace NitroGxGen
 
                 jsonDeserializeToken token = JsonConvert.DeserializeObject<jsonDeserializeToken>(responseBody);
 
-                OutputBox.Text = $"https://discord.com/billing/partner-promotions/1180231712274387115/{token.token}";
+                 OutputBox.Text = $"https://discord.com/billing/partner-promotions/1180231712274387115/{token.token}";
 
-                if (fileLocation.saveToFile && saveTimerToFile.Checked && timer1.Enabled)
+                if (fileLocation.saveToFile && saveTimerToFile.Checked)
                 {
                     using (StreamWriter stream = File.AppendText(fileLocation.path))
                     {
                         stream.WriteLine(OutputBox.Text);
                     }
+                    saveIndicatorLabel.Text = "Saved Successfully!";
+                    saveIndicatorLabel.ForeColor = Color.PaleGreen;
+                    saveIndicatorLabel.Visible = true;
                 }
 
             }
@@ -107,6 +111,16 @@ namespace NitroGxGen
             {
                 OutputBox.Text = "ERROR! PLEASE TRY AGAIN!\r\n" + response.ToString();
                 OutputBox.ScrollBars = ScrollBars.Vertical;
+                if (fileLocation.saveToFile && saveTimerToFile.Checked)
+                {
+                    using (StreamWriter stream = File.AppendText(fileLocation.path))
+                    {
+                        stream.WriteLine("ERROR!");
+                    }
+                    saveIndicatorLabel.Text = "Failure in generation!";
+                    saveIndicatorLabel.ForeColor = Color.DarkRed;
+                    saveIndicatorLabel.Visible = true;
+                }
             }
         }
 
