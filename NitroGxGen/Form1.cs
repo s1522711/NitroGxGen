@@ -186,7 +186,8 @@ namespace NitroGxGen
         static class timerTime
         {
             // public var to keep track of the thats time left until next generation
-            public static double timeLeft = 0.0;
+            public static double timeLeft = 0.00;
+            public static double setTime = 0.00; // this is the time that was set by the user, updated when the timer is enabled and on every generation, used to calculate the progressbar value without it being changed by the user
         }
 
         static class fileLocation
@@ -199,18 +200,33 @@ namespace NitroGxGen
         private void timer1_Tick(object sender, EventArgs e)
         {
             // run every 100 milliseconds
-            // if timeleft is higher than 0 decrease it by 0.1 and update label
-            if (timerTime.timeLeft > 0.0)
+            // if timeleft is higher than 0 decrease it by 0.01 and update label
+            if (timerTime.timeLeft > 0.00)
             {
-                timerTime.timeLeft = timerTime.timeLeft - 0.1;
-                timerLabel.Text = string.Format("{0:F1}", timerTime.timeLeft);
-                timerLabel.Invoke(new Action(() => timerLabel.Text = string.Format("{0:F1}", timerTime.timeLeft)));
+                timerTime.timeLeft = timerTime.timeLeft - 0.01;
+                timerLabel.Text = string.Format("{0:F2}", timerTime.timeLeft);
+                timerLabel.Invoke(new Action(() => timerLabel.Text = string.Format("{0:F2}", timerTime.timeLeft)));
+                //double progress = ((double)timerInput.Value - timerTime.timeLeft) / (double)timerInput.Value * 1000;
+                try
+                {
+                    timerProgressBar.Value = (int)((timerTime.setTime - timerTime.timeLeft) / timerTime.setTime * 1000) + 1;
+                    timerProgressBar.Value -= 2;
+                    timerProgressBarSmall.Value = (int)((timerTime.setTime - timerTime.timeLeft) / timerTime.setTime * 1000) + 1;
+                    timerProgressBarSmall.Value -= 1;
+                }
+                catch (System.ArgumentOutOfRangeException)
+                {
+                    timerProgressBar.Value = 100;
+                }
             }
             else
             {
                 // else generate new link and reset timeleft
                 genLink();
                 timerTime.timeLeft = (double)timerInput.Value;
+                timerTime.setTime = (double)timerInput.Value;
+                timerProgressBar.Value = 0;
+                timerProgressBarSmall.Value = 0;
             }
         }
 
@@ -220,22 +236,27 @@ namespace NitroGxGen
             if (timerBox.Checked)
             {
                 timerTime.timeLeft = (double)timerInput.Value;
+                timerTime.setTime = (double)timerInput.Value;
                 GenBtn.Enabled = false;
                 timer1.Enabled = true;
-                timerLabel.Text = string.Format("{0:F1}", timerTime.timeLeft);
+                timerLabel.Text = string.Format("{0:F2}", timerTime.timeLeft);
                 timerLabel.Visible = true;
                 infoTimerLabel.Visible = true;
+                timerProgressBar.Visible = true;
+                timerProgressBarSmall.Visible = true;
                 timer1.Start();
             }
             else
             {
                 timer1.Stop();
-                timerTime.timeLeft = 0.0;
-                timerLabel.Text = "0.0";
+                timerTime.timeLeft = 0.00;
+                timerLabel.Text = "0.00";
                 GenBtn.Enabled = true;
                 timer1.Enabled = false;
                 infoTimerLabel.Visible = false;
                 timerLabel.Visible = false;
+                timerProgressBar.Visible = false;
+                timerProgressBarSmall.Visible = false;
             }
         }
 

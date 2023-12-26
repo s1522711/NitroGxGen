@@ -49,6 +49,8 @@
             infoTimerLabel = new Label();
             groupBox2 = new GroupBox();
             saveIndicatorLabel = new Label();
+            timerProgressBar = new ProgressBar();
+            timerProgressBarSmall = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)timerInput).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -135,6 +137,7 @@
             // 
             // timer1
             // 
+            timer1.Interval = 10;
             timer1.Tick += timer1_Tick;
             // 
             // timerLabel
@@ -150,7 +153,7 @@
             // 
             // timerInput
             // 
-            timerInput.DecimalPlaces = 1;
+            timerInput.DecimalPlaces = 2;
             timerInput.InterceptArrowKeys = false;
             timerInput.Location = new Point(6, 26);
             timerInput.Minimum = new decimal(new int[] { 5, 0, 0, 65536 });
@@ -210,6 +213,7 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Transparent;
+            groupBox1.Controls.Add(timerProgressBarSmall);
             groupBox1.Controls.Add(timerLabel);
             groupBox1.Controls.Add(infoTimerLabel);
             groupBox1.Controls.Add(timerInput);
@@ -261,6 +265,28 @@
             saveIndicatorLabel.TextAlign = ContentAlignment.MiddleCenter;
             saveIndicatorLabel.Visible = false;
             // 
+            // timerProgressBar
+            // 
+            timerProgressBar.Location = new Point(12, 485);
+            timerProgressBar.MarqueeAnimationSpeed = 10000;
+            timerProgressBar.Maximum = 1000;
+            timerProgressBar.Name = "timerProgressBar";
+            timerProgressBar.Size = new Size(760, 23);
+            timerProgressBar.Style = ProgressBarStyle.Continuous;
+            timerProgressBar.TabIndex = 16;
+            timerProgressBar.Visible = false;
+            // 
+            // timerProgressBarSmall
+            // 
+            timerProgressBarSmall.Location = new Point(232, 43);
+            timerProgressBarSmall.MarqueeAnimationSpeed = 10000;
+            timerProgressBarSmall.Maximum = 1000;
+            timerProgressBarSmall.Name = "timerProgressBarSmall";
+            timerProgressBarSmall.Size = new Size(191, 17);
+            timerProgressBarSmall.Style = ProgressBarStyle.Continuous;
+            timerProgressBarSmall.TabIndex = 17;
+            timerProgressBarSmall.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -268,6 +294,7 @@
             BackgroundImage = Properties.Resources.discord_nitro_banner_jpegged;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(784, 520);
+            Controls.Add(timerProgressBar);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(label2);
@@ -317,5 +344,7 @@
         private Label infoTimerLabel;
         private GroupBox groupBox2;
         private Label saveIndicatorLabel;
+        private ProgressBar timerProgressBar;
+        private ProgressBar timerProgressBarSmall;
     }
 }
