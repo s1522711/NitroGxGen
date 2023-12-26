@@ -38,7 +38,6 @@
             debugLabel = new Label();
             label2 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
-            timerLabel = new Label();
             timerInput = new NumericUpDown();
             timerBox = new CheckBox();
             fileSelect = new Button();
@@ -46,11 +45,12 @@
             saveTimerToFile = new CheckBox();
             selectedFileLabel = new Label();
             groupBox1 = new GroupBox();
+            timerProgressBarSmall = new ProgressBar();
             infoTimerLabel = new Label();
+            GenCountLabel = new Label();
             groupBox2 = new GroupBox();
             saveIndicatorLabel = new Label();
             timerProgressBar = new ProgressBar();
-            timerProgressBarSmall = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)timerInput).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -70,6 +70,7 @@
             // OutputBox
             // 
             OutputBox.AcceptsReturn = true;
+            OutputBox.BackColor = SystemColors.Control;
             OutputBox.Font = new Font("Showcard Gothic", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             OutputBox.Location = new Point(12, 12);
             OutputBox.Multiline = true;
@@ -140,17 +141,6 @@
             timer1.Interval = 10;
             timer1.Tick += timer1_Tick;
             // 
-            // timerLabel
-            // 
-            timerLabel.AutoSize = true;
-            timerLabel.ForeColor = Color.White;
-            timerLabel.Location = new Point(394, 28);
-            timerLabel.Name = "timerLabel";
-            timerLabel.Size = new Size(38, 15);
-            timerLabel.TabIndex = 8;
-            timerLabel.Text = "label3";
-            timerLabel.Visible = false;
-            // 
             // timerInput
             // 
             timerInput.DecimalPlaces = 2;
@@ -214,7 +204,6 @@
             // 
             groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(timerProgressBarSmall);
-            groupBox1.Controls.Add(timerLabel);
             groupBox1.Controls.Add(infoTimerLabel);
             groupBox1.Controls.Add(timerInput);
             groupBox1.Controls.Add(timerBox);
@@ -226,17 +215,38 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Loop Timer";
             // 
+            // timerProgressBarSmall
+            // 
+            timerProgressBarSmall.Location = new Point(232, 38);
+            timerProgressBarSmall.MarqueeAnimationSpeed = 10000;
+            timerProgressBarSmall.Maximum = 1000;
+            timerProgressBarSmall.Name = "timerProgressBarSmall";
+            timerProgressBarSmall.Size = new Size(191, 17);
+            timerProgressBarSmall.Style = ProgressBarStyle.Continuous;
+            timerProgressBarSmall.TabIndex = 17;
+            timerProgressBarSmall.Visible = false;
+            // 
             // infoTimerLabel
             // 
             infoTimerLabel.AutoSize = true;
             infoTimerLabel.BackColor = Color.Transparent;
             infoTimerLabel.ForeColor = Color.White;
-            infoTimerLabel.Location = new Point(232, 28);
+            infoTimerLabel.Location = new Point(232, 23);
             infoTimerLabel.Name = "infoTimerLabel";
-            infoTimerLabel.Size = new Size(167, 15);
+            infoTimerLabel.Size = new Size(191, 15);
             infoTimerLabel.TabIndex = 14;
-            infoTimerLabel.Text = "time left until next generation:";
+            infoTimerLabel.Text = "time left until next generation: 0.00";
             infoTimerLabel.Visible = false;
+            // 
+            // GenCountLabel
+            // 
+            GenCountLabel.AutoSize = true;
+            GenCountLabel.Location = new Point(456, 137);
+            GenCountLabel.Name = "GenCountLabel";
+            GenCountLabel.Size = new Size(82, 15);
+            GenCountLabel.TabIndex = 18;
+            GenCountLabel.Text = "Generations: 0";
+            GenCountLabel.Visible = false;
             // 
             // groupBox2
             // 
@@ -276,17 +286,6 @@
             timerProgressBar.TabIndex = 16;
             timerProgressBar.Visible = false;
             // 
-            // timerProgressBarSmall
-            // 
-            timerProgressBarSmall.Location = new Point(232, 43);
-            timerProgressBarSmall.MarqueeAnimationSpeed = 10000;
-            timerProgressBarSmall.Maximum = 1000;
-            timerProgressBarSmall.Name = "timerProgressBarSmall";
-            timerProgressBarSmall.Size = new Size(191, 17);
-            timerProgressBarSmall.Style = ProgressBarStyle.Continuous;
-            timerProgressBarSmall.TabIndex = 17;
-            timerProgressBarSmall.Visible = false;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -294,6 +293,7 @@
             BackgroundImage = Properties.Resources.discord_nitro_banner_jpegged;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(784, 520);
+            Controls.Add(GenCountLabel);
             Controls.Add(timerProgressBar);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -333,7 +333,6 @@
         private Label debugLabel;
         private Label label2;
         public System.Windows.Forms.Timer timer1;
-        private Label timerLabel;
         private NumericUpDown timerInput;
         private CheckBox timerBox;
         private Button fileSelect;
@@ -346,5 +345,6 @@
         private Label saveIndicatorLabel;
         private ProgressBar timerProgressBar;
         private ProgressBar timerProgressBarSmall;
+        private Label GenCountLabel;
     }
 }

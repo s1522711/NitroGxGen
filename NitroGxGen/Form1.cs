@@ -42,6 +42,7 @@ namespace NitroGxGen
             OutputBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             OutputBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             OutputBox.ScrollBars = ScrollBars.None;
+            OutputBox.BackColor = System.Drawing.SystemColors.Control;
             // init httpclient
             HttpClient client = new HttpClient();
             HttpRequestMessage request;
@@ -99,7 +100,12 @@ namespace NitroGxGen
 
                 jsonDeserializeToken token = JsonConvert.DeserializeObject<jsonDeserializeToken>(responseBody);
 
-                 OutputBox.Text = $"https://discord.com/billing/partner-promotions/1180231712274387115/{token.token}";
+                OutputBox.Text = $"https://discord.com/billing/partner-promotions/1180231712274387115/{token.token}";
+
+                // increase generation count
+                timerTime.genCount++;
+                GenCountLabel.Invoke(new Action(() => { GenCountLabel.Visible = true; }));
+                GenCountLabel.Invoke(new Action(() => GenCountLabel.Text = $"Generations: {timerTime.genCount}"));
 
                 // save request if checkbox is checked
                 if (fileLocation.saveToFile && saveTimerToFile.Checked)
@@ -130,6 +136,16 @@ namespace NitroGxGen
                     saveIndicatorLabel.Text = "Failure in generation!";
                     saveIndicatorLabel.ForeColor = Color.DarkRed;
                     saveIndicatorLabel.Visible = true;
+                }
+
+                OutputBox.BackColor = Color.OrangeRed;
+
+                if (timer1.Enabled)
+                {
+                    timerTime.timeLeft = 100.00;
+                    timerTime.setTime = 100.00;
+                    timerProgressBar.Value = 0;
+                    timerProgressBarSmall.Value = 0;
                 }
             }
         }
@@ -175,10 +191,12 @@ namespace NitroGxGen
             if (debugCheckbox.Checked)
             {
                 debugLabel.Visible = true;
+                timerInput.Minimum = 0.01M;
             }
             else
             {
                 debugLabel.Visible = false;
+                timerInput.Minimum = 0.5M;
             }
         }
 
@@ -187,6 +205,7 @@ namespace NitroGxGen
             // public var to keep track of the thats time left until next generation
             public static double timeLeft = 0.00;
             public static double setTime = 0.00; // this is the time that was set by the user, updated when the timer is enabled and on every generation, used to calculate the progressbar value without it being changed by the user
+            public static int genCount = 0; // this is the amount of generations that were made
         }
 
         static class fileLocation
@@ -203,8 +222,7 @@ namespace NitroGxGen
             if (timerTime.timeLeft > 0.00)
             {
                 timerTime.timeLeft = timerTime.timeLeft - 0.01;
-                timerLabel.Text = string.Format("{0:F2}", timerTime.timeLeft);
-                timerLabel.Invoke(new Action(() => timerLabel.Text = string.Format("{0:F2}", timerTime.timeLeft)));
+                infoTimerLabel.Invoke(new Action(() => infoTimerLabel.Text = string.Format("time left until next generation: {0:F2}", timerTime.timeLeft)));
                 //double progress = ((double)timerInput.Value - timerTime.timeLeft) / (double)timerInput.Value * 1000;
                 try
                 {
@@ -238,8 +256,7 @@ namespace NitroGxGen
                 timerTime.setTime = (double)timerInput.Value;
                 GenBtn.Enabled = false;
                 timer1.Enabled = true;
-                timerLabel.Text = string.Format("{0:F2}", timerTime.timeLeft);
-                timerLabel.Visible = true;
+                infoTimerLabel.Text = string.Format("time left until next generation: {0:F2}", timerTime.timeLeft);
                 infoTimerLabel.Visible = true;
                 timerProgressBar.Visible = true;
                 timerProgressBarSmall.Visible = true;
@@ -249,11 +266,10 @@ namespace NitroGxGen
             {
                 timer1.Stop();
                 timerTime.timeLeft = 0.00;
-                timerLabel.Text = "0.00";
+                infoTimerLabel.Text = "time left until next generation: 0.00";
                 GenBtn.Enabled = true;
                 timer1.Enabled = false;
                 infoTimerLabel.Visible = false;
-                timerLabel.Visible = false;
                 timerProgressBar.Visible = false;
                 timerProgressBarSmall.Visible = false;
             }
